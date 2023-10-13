@@ -1,5 +1,6 @@
 package com.theycallmewolf.todolist.users;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired // dependency injection
+    private IUserRepository userRepository;
+
     /**
      * `String` - a sequence of characters
      * `Integer` (int) - whole numbers
@@ -27,9 +31,15 @@ public class UserController {
      * `void` - nothing
      */
     @PostMapping("/create")
-    public void createUser(@RequestBody UserModel userModel) {
-        System.out.println(userModel.getUsername());
-        System.out.println(userModel.getName());
-        System.out.println(userModel.getPassword());
+    public UserModel createUser(@RequestBody UserModel userModel) {
+        var user = this.userRepository.findByUsername(userModel.getUsername());
+
+        if(user != null) {
+            System.out.println("User already exists");
+            return null;
+        }
+
+        var createdUser = this.userRepository.save(userModel);
+        return createdUser;
     }
 }

@@ -1,6 +1,8 @@
 package com.theycallmewolf.todolist.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,15 +33,18 @@ public class UserController {
      * `void` - nothing
      */
     @PostMapping("/create")
-    public UserModel createUser(@RequestBody UserModel userModel) {
+    public ResponseEntity createUser(@RequestBody UserModel userModel) {
         var user = this.userRepository.findByUsername(userModel.getUsername());
 
         if(user != null) {
             System.out.println("User already exists");
-            return null;
+
+            // return a response entity with a status code of 400 (bad request) and a message of "User already exists"
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
         }
 
         var createdUser = this.userRepository.save(userModel);
-        return createdUser;
+        // return ResponseEntity.ok().body(createdUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

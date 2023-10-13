@@ -22,7 +22,7 @@ public class TaskController {
     @Autowired
     private ITaskRepository taskRepository;
     
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
 
         var userId = request.getAttribute("userId");
@@ -46,10 +46,12 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
-    @GetMapping("/list")
+    @GetMapping("/")
     public List<TaskModel> list(HttpServletRequest request) {
         var userId = request.getAttribute("userId");
         var tasks = this.taskRepository.findByUserId((UUID) userId);
         return tasks;
     }
+
+   
 }

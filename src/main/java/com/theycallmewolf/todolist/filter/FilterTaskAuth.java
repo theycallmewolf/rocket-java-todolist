@@ -22,14 +22,17 @@ public class FilterTaskAuth extends OncePerRequestFilter {
     private IUserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(
+        HttpServletRequest request,
+        HttpServletResponse response, 
+        FilterChain filterChain)
             throws ServletException, IOException {
 
             // Get path from request
             var path = request.getServletPath();
 
             // If path is `/tasks/create`
-            if(path.equals("/tasks/create")) {
+            if(path.equals("/tasks/create") || path.equals("/tasks/list")) {
                 // Get authentication (username and password) from request
                 // - If authentication is not present, return 401 Unauthorized
                 var auth = request.getHeader("Authorization");

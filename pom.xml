@@ -59,7 +59,11 @@
 			<version>2.2.224</version>
 		</dependency>
 		
-		
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.10.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

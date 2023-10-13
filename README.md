@@ -7,3 +7,4 @@
 - [Spring Data JPA ORM](https://spring.io/projects/spring-data-jpa)
 - [H2 Database](https://h2database.com/html/main.html)
     - localhost:8080/h2-console
+- [BCrypt](github.com/patrickfav/bcrypt/tree/main)

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 /**
  * modifiers: 
  * `public` - accessible from anywhere
@@ -42,6 +44,10 @@ public class UserController {
             // return a response entity with a status code of 400 (bad request) and a message of "User already exists"
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
         }
+
+        var hashedPassword = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
+
+        userModel.setPassword(hashedPassword);
 
         var createdUser = this.userRepository.save(userModel);
         // return ResponseEntity.ok().body(createdUser);

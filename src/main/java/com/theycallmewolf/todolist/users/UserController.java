@@ -39,8 +39,6 @@ public class UserController {
         var user = this.userRepository.findByUsername(userModel.getUsername());
 
         if(user != null) {
-            System.out.println("User already exists");
-
             // return a response entity with a status code of 400 (bad request) and a message of "User already exists"
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User already exists");
         }

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +24,7 @@ public class TaskController {
     @Autowired
     private ITaskRepository taskRepository;
     
+    // create a task
     @PostMapping("/")
     public ResponseEntity create(@RequestBody TaskModel taskModel, HttpServletRequest request) {
 
@@ -46,6 +49,7 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(task);
     }
 
+    // get all tasks
     @GetMapping("/")
     public List<TaskModel> list(HttpServletRequest request) {
         var userId = request.getAttribute("userId");
@@ -54,4 +58,13 @@ public class TaskController {
     }
 
    
+    // update a task
+    // http://localhost:8080/tasks/{id}
+    @PutMapping("/{id}")
+    public TaskModel update(@RequestBody TaskModel taskModel, HttpServletRequest request, @PathVariable UUID id) {
+       var userId = request.getAttribute("userId");
+       taskModel.setUserId((UUID) userId);
+       taskModel.setId(id);
+       return this.taskRepository.save(taskModel);
+    }
 }

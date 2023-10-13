@@ -32,7 +32,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
             var path = request.getServletPath();
 
             // If path is `/tasks/`
-            if(path.equals("/tasks/")) {
+            if(path.startsWith("/tasks/")) {
                 // Get authentication (username and password) from request
                 // - If authentication is not present, return 401 Unauthorized
                 var auth = request.getHeader("Authorization");

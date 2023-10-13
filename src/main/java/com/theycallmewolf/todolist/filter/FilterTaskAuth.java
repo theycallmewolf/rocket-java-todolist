@@ -57,20 +57,21 @@ public class FilterTaskAuth extends OncePerRequestFilter {
                 var passwordCheck = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
 
                 if(passwordCheck.verified) {
+                    // Add user id to request
+                    request.setAttribute("userId", user.getId());
+
                     // Continue
                     filterChain.doFilter(request, response);
-                    return;
-                };
+                } else {
+                    response.sendError(401, "wrong username or password");
+                }
                 
-                response.sendError(401, "wrong username or password");
 
             // If path is not `/tasks/create`
             } else {
                 // Continue
                 filterChain.doFilter(request, response);
             }
-            
-
             
     }    
 }

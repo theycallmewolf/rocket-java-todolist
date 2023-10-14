@@ -22,6 +22,13 @@ RUN apt-get install maven -y
 # runs the clean and install Maven goals to build and package a Java project.
 RUN mvn clean install
 
+# specify the base image for the Docker container
+# The `openjdk:17-jdk-slim` image is a pre-built Docker image that includes the
+# `OpenJDK 17 JDK` package, which is required to compile and run Java applications. 
+# The slim variant of the image is a smaller version of the image that includes
+# only the essential components needed to run Java applications.
+FROM openjdk:17-jdk-slim
+
 # exposes port 8080 on the Docker container.
 EXPOSE 8080
 
